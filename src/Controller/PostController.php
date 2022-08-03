@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\PostType;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,15 +39,22 @@ class PostController extends AbstractController
     {
         // create new post with a title
         $post = new Post();
-        $post->setTitle('This is a title');
+        $form = $this->createForm(PostType::class, $post);      // 1:57:00
+        $form->handleRequest($request);
+        if ($form->isSubmitted())
+        {
+            // entity manager
+            $em = $doctrine->getManager();
+            $em->persist($post);                        // https://stackoverflow.com/questions/1069992/jpa-entitymanager-why-use-persist-over-merge
+            $em->flush();
+            // remember to call flush() after a bunch of querries are ready to be sent
+            return $this->redirect($this->generateUrl('post.index'));
+        }
 
-        // entity manager
-        $em = $doctrine->getManager();
-        $em->persist($post);                        // https://stackoverflow.com/questions/1069992/jpa-entitymanager-why-use-persist-over-merge
-        $em->flush();
-        // remember to call flush() after a bunch of querries are ready to be sent
 
-        return $this->redirect($this->generateUrl('post.index'));
+        return $this->render('post/create.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
