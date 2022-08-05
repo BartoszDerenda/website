@@ -45,6 +45,16 @@ class PostController extends AbstractController
         {
             // entity manager
             $em = $doctrine->getManager();
+            $file = $request->files->get('post')['attachment'];
+            if ($file)
+            {
+                $filename = md5(uniqid()) . '.' . $file->guessClientExtension();
+                $file->move(
+                    $this->getParameter('uploads_dir'),
+                    $filename
+                );
+                $post->setAttachment($filename);
+            }
             $em->persist($post);                        // https://stackoverflow.com/questions/1069992/jpa-entitymanager-why-use-persist-over-merge
             $em->flush();
             // remember to call flush() after a bunch of querries are ready to be sent

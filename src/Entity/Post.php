@@ -14,6 +14,9 @@ class Post
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $attachment = null;
+
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
@@ -30,6 +33,18 @@ class Post
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getAttachment(): ?string
+    {
+        return $this->attachment;
+    }
+
+    public function setAttachment(string $attachment): self
+    {
+        $this->attachment = $attachment;
 
         return $this;
     }
