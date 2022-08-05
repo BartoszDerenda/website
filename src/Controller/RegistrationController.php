@@ -32,7 +32,6 @@ class RegistrationController extends AbstractController
                     ]
                 ])
                 ->getForm();
-            ;
 
             $form->handleRequest($request);
             if ($form->isSubmitted())
