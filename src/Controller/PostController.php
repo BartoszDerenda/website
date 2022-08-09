@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @Route("/post", name="post.")
+ * @Route("/forum", name="post.")
  */
 class PostController extends AbstractController
 {
@@ -34,8 +34,9 @@ class PostController extends AbstractController
      * @Route("/create", name="create")
      * @param Request $request
      * @param ManagerRegistry $doctrine
+     * @return Response
      */
-    public function create(Request $request, ManagerRegistry $doctrine)
+    public function create(Request $request, ManagerRegistry $doctrine): Response
     {
         // create new post with a title
         $post = new Post();
@@ -49,18 +50,13 @@ class PostController extends AbstractController
             if ($file)
             {
                 $filename = md5(uniqid()) . '.' . $file->guessClientExtension();
-                $file->move(
-                    $this->getParameter('uploads_dir'),
-                    $filename
-                );
+                $file->move($this->getParameter('uploads_dir'), $filename);            // move(what,where)
                 $post->setAttachment($filename);
             }
             $em->persist($post);                        // https://stackoverflow.com/questions/1069992/jpa-entitymanager-why-use-persist-over-merge
             $em->flush();
-            // remember to call flush() after a bunch of querries are ready to be sent
             return $this->redirect($this->generateUrl('post.index'));
         }
-
 
         return $this->render('post/create.html.twig', [
             'form' => $form->createView()
@@ -72,7 +68,7 @@ class PostController extends AbstractController
      * @param Post $post
      * @return Response
      */
-    public function show(Post $post)
+    public function show(Post $post): Response
     {
 
         // create the view
@@ -85,8 +81,9 @@ class PostController extends AbstractController
      * @Route("/delete/{id}", name="delete")
      * @param Post $post
      * @param ManagerRegistry $doctrine
+     * @return Response
      */
-    public function remove(Post $post, ManagerRegistry $doctrine)
+    public function remove(Post $post, ManagerRegistry $doctrine): Response
     {
         $em = $doctrine->getManager();
 

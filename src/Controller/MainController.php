@@ -11,8 +11,9 @@ class MainController extends AbstractController
 {
     /**
      * @Route("/", name="home")
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         return $this->render(view:'home/index.html.twig');
     }
@@ -23,7 +24,7 @@ class MainController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function custom(Request $request)
+    public function custom(Request $request): Response
     {
         $name = $request->get(key:'name');
 
