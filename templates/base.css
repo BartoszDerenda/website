@@ -1,0 +1,7 @@
+.test {
+    display: flex;
+    background: #5eb5e0;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
