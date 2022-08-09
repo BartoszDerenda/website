@@ -22,6 +22,9 @@ class Post
     #[ORM\ManyToOne(targetEntity: "App\Entity\Category", inversedBy: "post")]
     private $category;
 
+    #[ORM\Column(length: 2000)]
+    private ?string $text = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Post
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): self
+    {
+        $this->text = $text;
 
         return $this;
     }

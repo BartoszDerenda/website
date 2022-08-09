@@ -3,7 +3,8 @@
 {% block body %}
     <h2>ID: {{ post.id }}</h2>
     <h1>Title: {{ post.title }}</h1>
-    <em>{{ post.category }}</em>
+    <p>{{ post.text }}</p>
+    <em>Category: {{ post.category }}</em>
     <hr>
     <img src="{{ asset('uploads/' ~ post.attachment) }}" class="w-25 img-thumbnail" alt="[image here]">
 {% endblock %}
