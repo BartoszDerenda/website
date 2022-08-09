@@ -5,6 +5,7 @@
     <h1>Title: {{ post.title }}</h1>
     <p>{{ post.text }}</p>
     <em>Category: {{ post.category }}</em>
+    <!-- <p>{{ task.createdAt|format_date('long') }}</p> -->
     <hr>
     <img src="{{ asset('uploads/' ~ post.attachment) }}" class="w-25 img-thumbnail" alt="[image here]">
 {% endblock %}
